@@ -1,5 +1,5 @@
-import createApolloClient from '@/apollo/client';
-import { GET_USER_BY_EMAIL } from '@/apollo/users';
+// import createApolloClient from '@/apollo/client';
+// import { GET_USER_BY_EMAIL } from '@/apollo/users';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
@@ -13,7 +13,7 @@ const handler = NextAuth({
 			},
 			async authorize(credentials) {
 				if (!credentials) return null;
-				const { email, password } = credentials;
+				// const { email, password } = credentials;
 
 				try {
 					// const client = createApolloClient();
