@@ -1,5 +1,11 @@
 import createApolloClient from "@/apollo/client"
 import { GET_LAST_TERMS_OF_SERVICE } from "@/apollo/docs";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Task Tracker App | Terms of Service",
+  description: "Terms of Service for the task tracker app",
+};
 
 export const revalidate = 0;
 

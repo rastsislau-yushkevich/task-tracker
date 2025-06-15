@@ -1,4 +1,10 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Task Tracker App | FAQ",
+  description: "FAQ for the task tracker app",
+};
 
 export default function Faq() {
   return (
