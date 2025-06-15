@@ -1,0 +1,126 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertTasksObject
+  fields:
+    - name: completed
+      type: Boolean_1
+    - name: description
+      type: String_1!
+    - name: id
+      type: Uuid
+    - name: title
+      type: String_1!
+    - name: userId
+      type: Uuid!
+  graphql:
+    typeName: InsertTasksObject
+    inputTypeName: InsertTasksObjectInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: tracker_pg
+      dataConnectorObjectType: insert_tasks_object
+      fieldMapping:
+        completed:
+          column:
+            name: completed
+        description:
+          column:
+            name: description
+        id:
+          column:
+            name: id
+        title:
+          column:
+            name: title
+        userId:
+          column:
+            name: user_id
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertTasksObject
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - completed
+          - description
+          - id
+          - title
+          - userId
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertTasksResponse
+  description: Responses from the 'insert_tasks' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[Tasks!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: InsertTasksResponse
+    inputTypeName: InsertTasksResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: tracker_pg
+      dataConnectorObjectType: insert_tasks_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertTasksResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: InsertTasks
+  outputType: InsertTasksResponse!
+  arguments:
+    - name: objects
+      type: "[InsertTasksObject!]!"
+    - name: postCheck
+      type: TasksBoolExp
+      description: Insert permission predicate over the 'tasks' collection
+  source:
+    dataConnectorName: tracker_pg
+    dataConnectorCommand:
+      procedure: insert_tasks
+    argumentMapping:
+      objects: objects
+      postCheck: post_check
+  graphql:
+    rootFieldName: insertTasks
+    rootFieldKind: Mutation
+  description: Insert into the tasks table
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: InsertTasks
+  permissions:
+    - role: admin
+      allowExecution: true
+

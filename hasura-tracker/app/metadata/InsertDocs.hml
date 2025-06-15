@@ -1,0 +1,120 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertDocsObject
+  fields:
+    - name: contents
+      type: String_1!
+    - name: id
+      type: Uuid
+    - name: title
+      type: String_1!
+    - name: createdAt
+      type: Date
+  graphql:
+    typeName: InsertDocsObject
+    inputTypeName: InsertDocsObjectInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: tracker_pg
+      dataConnectorObjectType: insert_docs_object
+      fieldMapping:
+        contents:
+          column:
+            name: contents
+        createdAt:
+          column:
+            name: created_at
+        id:
+          column:
+            name: id
+        title:
+          column:
+            name: title
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertDocsObject
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - contents
+          - id
+          - title
+          - createdAt
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertDocsResponse
+  description: Responses from the 'insert_docs' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[Docs!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: InsertDocsResponse
+    inputTypeName: InsertDocsResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: tracker_pg
+      dataConnectorObjectType: insert_docs_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertDocsResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: InsertDocs
+  outputType: InsertDocsResponse!
+  arguments:
+    - name: objects
+      type: "[InsertDocsObject!]!"
+    - name: postCheck
+      type: DocsBoolExp
+      description: Insert permission predicate over the 'docs' collection
+  source:
+    dataConnectorName: tracker_pg
+    dataConnectorCommand:
+      procedure: insert_docs
+    argumentMapping:
+      objects: objects
+      postCheck: post_check
+  graphql:
+    rootFieldName: insertDocs
+    rootFieldKind: Mutation
+  description: Insert into the docs table
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: InsertDocs
+  permissions:
+    - role: admin
+      allowExecution: true
+

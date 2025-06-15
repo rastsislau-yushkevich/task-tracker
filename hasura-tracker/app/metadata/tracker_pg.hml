@@ -1,0 +1,1036 @@
+kind: DataConnectorLink
+version: v1
+definition:
+  name: tracker_pg
+  url:
+    readWriteUrls:
+      read:
+        valueFromEnv: APP_TRACKER_PG_READ_URL
+      write:
+        valueFromEnv: APP_TRACKER_PG_WRITE_URL
+  headers:
+    Authorization:
+      valueFromEnv: APP_TRACKER_PG_AUTHORIZATION_HEADER
+  schema:
+    version: v0.1
+    schema:
+      scalar_types:
+        bool:
+          representation:
+            type: boolean
+          aggregate_functions:
+            bool_and:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+            bool_or:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+            every:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: custom
+              argument_type:
+                name: bool
+                type: named
+            _gte:
+              type: custom
+              argument_type:
+                name: bool
+                type: named
+            _in:
+              type: in
+            _lt:
+              type: custom
+              argument_type:
+                name: bool
+                type: named
+            _lte:
+              type: custom
+              argument_type:
+                name: bool
+                type: named
+            _neq:
+              type: custom
+              argument_type:
+                name: bool
+                type: named
+        date:
+          representation:
+            type: date
+          aggregate_functions:
+            max:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: date
+                  type: named
+            min:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: date
+                  type: named
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: custom
+              argument_type:
+                name: date
+                type: named
+            _gte:
+              type: custom
+              argument_type:
+                name: date
+                type: named
+            _in:
+              type: in
+            _lt:
+              type: custom
+              argument_type:
+                name: date
+                type: named
+            _lte:
+              type: custom
+              argument_type:
+                name: date
+                type: named
+            _neq:
+              type: custom
+              argument_type:
+                name: date
+                type: named
+        int4:
+          representation:
+            type: int32
+          aggregate_functions: {}
+          comparison_operators: {}
+        text:
+          representation:
+            type: string
+          aggregate_functions:
+            max:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            min:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: custom
+              argument_type:
+                name: text
+                type: named
+            _gte:
+              type: custom
+              argument_type:
+                name: text
+                type: named
+            _ilike:
+              type: custom
+              argument_type:
+                name: text
+                type: named
+            _in:
+              type: in
+            _iregex:
+              type: custom
+              argument_type:
+                name: text
+                type: named
+            _like:
+              type: custom
+              argument_type:
+                name: text
+                type: named
+            _lt:
+              type: custom
+              argument_type:
+                name: text
+                type: named
+            _lte:
+              type: custom
+              argument_type:
+                name: text
+                type: named
+            _neq:
+              type: custom
+              argument_type:
+                name: text
+                type: named
+            _nilike:
+              type: custom
+              argument_type:
+                name: text
+                type: named
+            _niregex:
+              type: custom
+              argument_type:
+                name: text
+                type: named
+            _nlike:
+              type: custom
+              argument_type:
+                name: text
+                type: named
+            _nregex:
+              type: custom
+              argument_type:
+                name: text
+                type: named
+            _regex:
+              type: custom
+              argument_type:
+                name: text
+                type: named
+            starts_with:
+              type: custom
+              argument_type:
+                name: text
+                type: named
+            ts_match_tt:
+              type: custom
+              argument_type:
+                name: text
+                type: named
+        uuid:
+          representation:
+            type: uuid
+          aggregate_functions: {}
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: custom
+              argument_type:
+                name: uuid
+                type: named
+            _gte:
+              type: custom
+              argument_type:
+                name: uuid
+                type: named
+            _in:
+              type: in
+            _lt:
+              type: custom
+              argument_type:
+                name: uuid
+                type: named
+            _lte:
+              type: custom
+              argument_type:
+                name: uuid
+                type: named
+            _neq:
+              type: custom
+              argument_type:
+                name: uuid
+                type: named
+      object_types:
+        delete_docs_by_id_response:
+          description: Responses from the 'delete_docs_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: docs
+                  type: named
+                type: array
+        delete_tasks_by_id_response:
+          description: Responses from the 'delete_tasks_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: tasks
+                  type: named
+                type: array
+        delete_users_by_email_response:
+          description: Responses from the 'delete_users_by_email' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: users
+                  type: named
+                type: array
+        delete_users_by_id_response:
+          description: Responses from the 'delete_users_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: users
+                  type: named
+                type: array
+        docs:
+          fields:
+            contents:
+              type:
+                name: text
+                type: named
+            created_at:
+              type:
+                name: date
+                type: named
+            id:
+              type:
+                name: uuid
+                type: named
+            title:
+              type:
+                name: text
+                type: named
+        insert_docs_object:
+          fields:
+            contents:
+              type:
+                name: text
+                type: named
+            created_at:
+              type:
+                type: nullable
+                underlying_type:
+                  name: date
+                  type: named
+            id:
+              type:
+                type: nullable
+                underlying_type:
+                  name: uuid
+                  type: named
+            title:
+              type:
+                name: text
+                type: named
+        insert_docs_response:
+          description: Responses from the 'insert_docs' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: docs
+                  type: named
+                type: array
+        insert_tasks_object:
+          fields:
+            completed:
+              type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+            description:
+              type:
+                name: text
+                type: named
+            id:
+              type:
+                type: nullable
+                underlying_type:
+                  name: uuid
+                  type: named
+            title:
+              type:
+                name: text
+                type: named
+            user_id:
+              type:
+                name: uuid
+                type: named
+        insert_tasks_response:
+          description: Responses from the 'insert_tasks' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: tasks
+                  type: named
+                type: array
+        insert_users_object:
+          fields:
+            email:
+              type:
+                name: text
+                type: named
+            id:
+              type:
+                type: nullable
+                underlying_type:
+                  name: uuid
+                  type: named
+            password:
+              type:
+                name: text
+                type: named
+        insert_users_response:
+          description: Responses from the 'insert_users' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: users
+                  type: named
+                type: array
+        tasks:
+          fields:
+            completed:
+              type:
+                name: bool
+                type: named
+            description:
+              type:
+                name: text
+                type: named
+            id:
+              type:
+                name: uuid
+                type: named
+            title:
+              type:
+                name: text
+                type: named
+            user_id:
+              type:
+                name: uuid
+                type: named
+        update_column_docs_contents:
+          description: Update the 'contents' column in the 'docs' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+        update_column_docs_created_at:
+          description: Update the 'created_at' column in the 'docs' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: date
+                type: named
+        update_column_docs_id:
+          description: Update the 'id' column in the 'docs' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: uuid
+                type: named
+        update_column_docs_title:
+          description: Update the 'title' column in the 'docs' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+        update_column_tasks_completed:
+          description: Update the 'completed' column in the 'tasks' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: bool
+                type: named
+        update_column_tasks_description:
+          description: Update the 'description' column in the 'tasks' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+        update_column_tasks_id:
+          description: Update the 'id' column in the 'tasks' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: uuid
+                type: named
+        update_column_tasks_title:
+          description: Update the 'title' column in the 'tasks' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+        update_column_tasks_user_id:
+          description: Update the 'user_id' column in the 'tasks' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: uuid
+                type: named
+        update_column_users_email:
+          description: Update the 'email' column in the 'users' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+        update_column_users_id:
+          description: Update the 'id' column in the 'users' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: uuid
+                type: named
+        update_column_users_password:
+          description: Update the 'password' column in the 'users' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+        update_docs_by_id_response:
+          description: Responses from the 'update_docs_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: docs
+                  type: named
+                type: array
+        update_docs_by_id_update_columns:
+          description: Update the columns of the 'docs' collection
+          fields:
+            contents:
+              description: Update the 'contents' column in the 'docs' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_docs_contents
+                  type: named
+            created_at:
+              description: Update the 'created_at' column in the 'docs' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_docs_created_at
+                  type: named
+            id:
+              description: Update the 'id' column in the 'docs' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_docs_id
+                  type: named
+            title:
+              description: Update the 'title' column in the 'docs' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_docs_title
+                  type: named
+        update_tasks_by_id_response:
+          description: Responses from the 'update_tasks_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: tasks
+                  type: named
+                type: array
+        update_tasks_by_id_update_columns:
+          description: Update the columns of the 'tasks' collection
+          fields:
+            completed:
+              description: Update the 'completed' column in the 'tasks' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_tasks_completed
+                  type: named
+            description:
+              description: Update the 'description' column in the 'tasks' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_tasks_description
+                  type: named
+            id:
+              description: Update the 'id' column in the 'tasks' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_tasks_id
+                  type: named
+            title:
+              description: Update the 'title' column in the 'tasks' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_tasks_title
+                  type: named
+            user_id:
+              description: Update the 'user_id' column in the 'tasks' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_tasks_user_id
+                  type: named
+        update_users_by_email_response:
+          description: Responses from the 'update_users_by_email' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: users
+                  type: named
+                type: array
+        update_users_by_email_update_columns:
+          description: Update the columns of the 'users' collection
+          fields:
+            email:
+              description: Update the 'email' column in the 'users' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_users_email
+                  type: named
+            id:
+              description: Update the 'id' column in the 'users' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_users_id
+                  type: named
+            password:
+              description: Update the 'password' column in the 'users' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_users_password
+                  type: named
+        update_users_by_id_response:
+          description: Responses from the 'update_users_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: users
+                  type: named
+                type: array
+        update_users_by_id_update_columns:
+          description: Update the columns of the 'users' collection
+          fields:
+            email:
+              description: Update the 'email' column in the 'users' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_users_email
+                  type: named
+            id:
+              description: Update the 'id' column in the 'users' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_users_id
+                  type: named
+            password:
+              description: Update the 'password' column in the 'users' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_users_password
+                  type: named
+        users:
+          fields:
+            email:
+              type:
+                name: text
+                type: named
+            id:
+              type:
+                name: uuid
+                type: named
+            password:
+              type:
+                name: text
+                type: named
+      collections:
+        - name: docs
+          arguments: {}
+          type: docs
+          uniqueness_constraints:
+            docs_id:
+              unique_columns:
+                - id
+          foreign_keys: {}
+        - name: tasks
+          arguments: {}
+          type: tasks
+          uniqueness_constraints:
+            tasks_id:
+              unique_columns:
+                - id
+          foreign_keys:
+            tasks_user_id_fkey:
+              column_mapping:
+                user_id: id
+              foreign_collection: users
+        - name: users
+          arguments: {}
+          type: users
+          uniqueness_constraints:
+            users_email:
+              unique_columns:
+                - email
+            users_id:
+              unique_columns:
+                - id
+          foreign_keys: {}
+      functions: []
+      procedures:
+        - name: delete_docs_by_id
+          description: Delete any row on the 'docs' collection using the 'id' key
+          arguments:
+            key_id:
+              type:
+                name: uuid
+                type: named
+            pre_check:
+              description: Delete permission predicate over the 'docs' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: docs
+                  type: predicate
+          result_type:
+            name: delete_docs_by_id_response
+            type: named
+        - name: delete_tasks_by_id
+          description: Delete any row on the 'tasks' collection using the 'id' key
+          arguments:
+            key_id:
+              type:
+                name: uuid
+                type: named
+            pre_check:
+              description: Delete permission predicate over the 'tasks' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: tasks
+                  type: predicate
+          result_type:
+            name: delete_tasks_by_id_response
+            type: named
+        - name: delete_users_by_email
+          description: Delete any row on the 'users' collection using the 'email' key
+          arguments:
+            key_email:
+              type:
+                name: text
+                type: named
+            pre_check:
+              description: Delete permission predicate over the 'users' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: users
+                  type: predicate
+          result_type:
+            name: delete_users_by_email_response
+            type: named
+        - name: delete_users_by_id
+          description: Delete any row on the 'users' collection using the 'id' key
+          arguments:
+            key_id:
+              type:
+                name: uuid
+                type: named
+            pre_check:
+              description: Delete permission predicate over the 'users' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: users
+                  type: predicate
+          result_type:
+            name: delete_users_by_id_response
+            type: named
+        - name: insert_docs
+          description: Insert into the docs table
+          arguments:
+            objects:
+              type:
+                element_type:
+                  name: insert_docs_object
+                  type: named
+                type: array
+            post_check:
+              description: Insert permission predicate over the 'docs' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: docs
+                  type: predicate
+          result_type:
+            name: insert_docs_response
+            type: named
+        - name: insert_tasks
+          description: Insert into the tasks table
+          arguments:
+            objects:
+              type:
+                element_type:
+                  name: insert_tasks_object
+                  type: named
+                type: array
+            post_check:
+              description: Insert permission predicate over the 'tasks' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: tasks
+                  type: predicate
+          result_type:
+            name: insert_tasks_response
+            type: named
+        - name: insert_users
+          description: Insert into the users table
+          arguments:
+            objects:
+              type:
+                element_type:
+                  name: insert_users_object
+                  type: named
+                type: array
+            post_check:
+              description: Insert permission predicate over the 'users' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: users
+                  type: predicate
+          result_type:
+            name: insert_users_response
+            type: named
+        - name: update_docs_by_id
+          description: Update any row on the 'docs' collection using the 'id' key
+          arguments:
+            key_id:
+              type:
+                name: uuid
+                type: named
+            post_check:
+              description: Update permission post-condition predicate over the 'docs' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: docs
+                  type: predicate
+            pre_check:
+              description: Update permission pre-condition predicate over the 'docs' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: docs
+                  type: predicate
+            update_columns:
+              type:
+                name: update_docs_by_id_update_columns
+                type: named
+          result_type:
+            name: update_docs_by_id_response
+            type: named
+        - name: update_tasks_by_id
+          description: Update any row on the 'tasks' collection using the 'id' key
+          arguments:
+            key_id:
+              type:
+                name: uuid
+                type: named
+            post_check:
+              description: Update permission post-condition predicate over the 'tasks' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: tasks
+                  type: predicate
+            pre_check:
+              description: Update permission pre-condition predicate over the 'tasks' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: tasks
+                  type: predicate
+            update_columns:
+              type:
+                name: update_tasks_by_id_update_columns
+                type: named
+          result_type:
+            name: update_tasks_by_id_response
+            type: named
+        - name: update_users_by_email
+          description: Update any row on the 'users' collection using the 'email' key
+          arguments:
+            key_email:
+              type:
+                name: text
+                type: named
+            post_check:
+              description: Update permission post-condition predicate over the 'users' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: users
+                  type: predicate
+            pre_check:
+              description: Update permission pre-condition predicate over the 'users' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: users
+                  type: predicate
+            update_columns:
+              type:
+                name: update_users_by_email_update_columns
+                type: named
+          result_type:
+            name: update_users_by_email_response
+            type: named
+        - name: update_users_by_id
+          description: Update any row on the 'users' collection using the 'id' key
+          arguments:
+            key_id:
+              type:
+                name: uuid
+                type: named
+            post_check:
+              description: Update permission post-condition predicate over the 'users' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: users
+                  type: predicate
+            pre_check:
+              description: Update permission pre-condition predicate over the 'users' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: users
+                  type: predicate
+            update_columns:
+              type:
+                name: update_users_by_id_update_columns
+                type: named
+          result_type:
+            name: update_users_by_id_response
+            type: named
+    capabilities:
+      version: 0.1.6
+      capabilities:
+        query:
+          aggregates: {}
+          variables: {}
+          explain: {}
+          nested_fields:
+            filter_by: {}
+            order_by: {}
+          exists:
+            nested_collections: {}
+        mutation:
+          transactional: {}
+          explain: {}
+        relationships:
+          relation_comparisons: {}
+          order_by_aggregate: {}

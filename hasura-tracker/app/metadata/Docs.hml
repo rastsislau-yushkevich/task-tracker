@@ -1,0 +1,156 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: Docs
+  fields:
+    - name: contents
+      type: String_1!
+    - name: id
+      type: Uuid!
+    - name: title
+      type: String_1!
+    - name: createdAt
+      type: Date!
+  graphql:
+    typeName: Docs
+    inputTypeName: DocsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: tracker_pg
+      dataConnectorObjectType: docs
+      fieldMapping:
+        contents:
+          column:
+            name: contents
+        createdAt:
+          column:
+            name: created_at
+        id:
+          column:
+            name: id
+        title:
+          column:
+            name: title
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: Docs
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - contents
+          - id
+          - title
+          - createdAt
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: DocsBoolExp
+  operand:
+    object:
+      type: Docs
+      comparableFields:
+        - fieldName: contents
+          booleanExpressionType: TextBoolExp
+        - fieldName: id
+          booleanExpressionType: UuidBoolExp
+        - fieldName: title
+          booleanExpressionType: TextBoolExp
+        - fieldName: createdAt
+          booleanExpressionType: DateBoolExp
+      comparableRelationships: []
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: DocsBoolExp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: DocsAggExp
+  operand:
+    object:
+      aggregatedType: Docs
+      aggregatableFields:
+        - fieldName: contents
+          aggregateExpression: TextAggExp
+        - fieldName: id
+          aggregateExpression: UuidAggExp
+        - fieldName: title
+          aggregateExpression: TextAggExp
+        - fieldName: createdAt
+          aggregateExpression: DateAggExp
+  count:
+    enable: true
+  graphql:
+    selectTypeName: DocsAggExp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: DocsOrderByExp
+  operand:
+    object:
+      orderedType: Docs
+      orderableFields:
+        - fieldName: contents
+          orderByExpression: String1OrderByExp
+        - fieldName: id
+          orderByExpression: UuidOrderByExp
+        - fieldName: title
+          orderByExpression: String1OrderByExp
+        - fieldName: createdAt
+          orderByExpression: DateOrderByExp
+      orderableRelationships: []
+  graphql:
+    expressionTypeName: DocsOrderByExp
+
+---
+kind: Model
+version: v2
+definition:
+  name: Docs
+  objectType: Docs
+  source:
+    dataConnectorName: tracker_pg
+    collection: docs
+  filterExpressionType: DocsBoolExp
+  aggregateExpression: DocsAggExp
+  orderByExpression: DocsOrderByExp
+  graphql:
+    selectMany:
+      queryRootField: docs
+      subscription:
+        rootField: docs
+    selectUniques:
+      - queryRootField: docsById
+        uniqueIdentifier:
+          - id
+        subscription:
+          rootField: docsById
+    filterInputTypeName: DocsFilterInput
+    aggregate:
+      queryRootField: docsAggregate
+      subscription:
+        rootField: docsAggregate
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: Docs
+  permissions:
+    - role: admin
+      select:
+        filter: null
+        allowSubscriptions: true
+

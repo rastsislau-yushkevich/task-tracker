@@ -1,0 +1,72 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: DeleteTasksByIdResponse
+  description: Responses from the 'delete_tasks_by_id' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[Tasks!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: DeleteTasksByIdResponse
+    inputTypeName: DeleteTasksByIdResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: tracker_pg
+      dataConnectorObjectType: delete_tasks_by_id_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: DeleteTasksByIdResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: DeleteTasksById
+  outputType: DeleteTasksByIdResponse!
+  arguments:
+    - name: keyId
+      type: Uuid!
+    - name: preCheck
+      type: TasksBoolExp
+      description: Delete permission predicate over the 'tasks' collection
+  source:
+    dataConnectorName: tracker_pg
+    dataConnectorCommand:
+      procedure: delete_tasks_by_id
+    argumentMapping:
+      keyId: key_id
+      preCheck: pre_check
+  graphql:
+    rootFieldName: deleteTasksById
+    rootFieldKind: Mutation
+  description: Delete any row on the 'tasks' collection using the 'id' key
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: DeleteTasksById
+  permissions:
+    - role: admin
+      allowExecution: true
+

@@ -1,0 +1,162 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: Users
+  fields:
+    - name: email
+      type: String_1!
+    - name: id
+      type: Uuid!
+    - name: password
+      type: String_1!
+  graphql:
+    typeName: Users
+    inputTypeName: UsersInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: tracker_pg
+      dataConnectorObjectType: users
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: Users
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - email
+          - id
+          - password
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: UsersBoolExp
+  operand:
+    object:
+      type: Users
+      comparableFields:
+        - fieldName: email
+          booleanExpressionType: TextBoolExp
+        - fieldName: id
+          booleanExpressionType: UuidBoolExp
+        - fieldName: password
+          booleanExpressionType: TextBoolExp
+      comparableRelationships:
+        - relationshipName: tasks
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: UsersBoolExp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: UsersAggExp
+  operand:
+    object:
+      aggregatedType: Users
+      aggregatableFields:
+        - fieldName: email
+          aggregateExpression: TextAggExp
+        - fieldName: id
+          aggregateExpression: UuidAggExp
+        - fieldName: password
+          aggregateExpression: TextAggExp
+  count:
+    enable: true
+  graphql:
+    selectTypeName: UsersAggExp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: UsersOrderByExp
+  operand:
+    object:
+      orderedType: Users
+      orderableFields:
+        - fieldName: email
+          orderByExpression: String1OrderByExp
+        - fieldName: id
+          orderByExpression: UuidOrderByExp
+        - fieldName: password
+          orderByExpression: String1OrderByExp
+      orderableRelationships: []
+  graphql:
+    expressionTypeName: UsersOrderByExp
+
+---
+kind: Model
+version: v2
+definition:
+  name: Users
+  objectType: Users
+  source:
+    dataConnectorName: tracker_pg
+    collection: users
+  filterExpressionType: UsersBoolExp
+  aggregateExpression: UsersAggExp
+  orderByExpression: UsersOrderByExp
+  graphql:
+    selectMany:
+      queryRootField: users
+      subscription:
+        rootField: users
+    selectUniques:
+      - queryRootField: usersByEmail
+        uniqueIdentifier:
+          - email
+        subscription:
+          rootField: usersByEmail
+      - queryRootField: usersById
+        uniqueIdentifier:
+          - id
+        subscription:
+          rootField: usersById
+    filterInputTypeName: UsersFilterInput
+    aggregate:
+      queryRootField: usersAggregate
+      subscription:
+        rootField: usersAggregate
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: Users
+  permissions:
+    - role: admin
+      select:
+        filter: null
+        allowSubscriptions: true
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: tasks
+  sourceType: Users
+  target:
+    model:
+      name: Tasks
+      relationshipType: Array
+      aggregate:
+        aggregateExpression: TasksAggExp
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: userId
+  graphql:
+    aggregateFieldName: tasksAggregate
+

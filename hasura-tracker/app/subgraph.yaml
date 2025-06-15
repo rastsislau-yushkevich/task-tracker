@@ -1,0 +1,19 @@
+kind: Subgraph
+version: v2
+definition:
+  name: app
+  generator:
+    rootPath: .
+    namingConvention: graphql
+  includePaths:
+    - metadata
+  envMapping:
+    APP_TRACKER_PG_AUTHORIZATION_HEADER:
+      fromEnv: APP_TRACKER_PG_AUTHORIZATION_HEADER
+    APP_TRACKER_PG_READ_URL:
+      fromEnv: APP_TRACKER_PG_READ_URL
+    APP_TRACKER_PG_WRITE_URL:
+      fromEnv: APP_TRACKER_PG_WRITE_URL
+  connectors:
+    - path: connector/tracker_pg/connector.yaml
+      connectorLinkName: tracker_pg

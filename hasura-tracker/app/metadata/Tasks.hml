@@ -1,0 +1,188 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: Tasks
+  fields:
+    - name: description
+      type: String_1!
+    - name: id
+      type: Uuid!
+    - name: title
+      type: String_1!
+    - name: userId
+      type: Uuid!
+    - name: completed
+      type: Boolean_1!
+  graphql:
+    typeName: Tasks
+    inputTypeName: TasksInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: tracker_pg
+      dataConnectorObjectType: tasks
+      fieldMapping:
+        description:
+          column:
+            name: description
+        id:
+          column:
+            name: id
+        title:
+          column:
+            name: title
+        userId:
+          column:
+            name: user_id
+        completed:
+          column:
+            name: completed
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: Tasks
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - description
+          - id
+          - title
+          - userId
+          - completed
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: TasksBoolExp
+  operand:
+    object:
+      type: Tasks
+      comparableFields:
+        - fieldName: description
+          booleanExpressionType: TextBoolExp
+        - fieldName: id
+          booleanExpressionType: UuidBoolExp
+        - fieldName: title
+          booleanExpressionType: TextBoolExp
+        - fieldName: userId
+          booleanExpressionType: UuidBoolExp
+        - fieldName: completed
+          booleanExpressionType: BoolBoolExp
+      comparableRelationships:
+        - relationshipName: user
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: TasksBoolExp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: TasksAggExp
+  operand:
+    object:
+      aggregatedType: Tasks
+      aggregatableFields:
+        - fieldName: description
+          aggregateExpression: TextAggExp
+        - fieldName: id
+          aggregateExpression: UuidAggExp
+        - fieldName: title
+          aggregateExpression: TextAggExp
+        - fieldName: userId
+          aggregateExpression: UuidAggExp
+        - fieldName: completed
+          aggregateExpression: BoolAggExp
+  count:
+    enable: true
+  graphql:
+    selectTypeName: TasksAggExp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: TasksOrderByExp
+  operand:
+    object:
+      orderedType: Tasks
+      orderableFields:
+        - fieldName: description
+          orderByExpression: String1OrderByExp
+        - fieldName: id
+          orderByExpression: UuidOrderByExp
+        - fieldName: title
+          orderByExpression: String1OrderByExp
+        - fieldName: userId
+          orderByExpression: UuidOrderByExp
+        - fieldName: completed
+          orderByExpression: Boolean1OrderByExp
+      orderableRelationships:
+        - relationshipName: user
+  graphql:
+    expressionTypeName: TasksOrderByExp
+
+---
+kind: Model
+version: v2
+definition:
+  name: Tasks
+  objectType: Tasks
+  source:
+    dataConnectorName: tracker_pg
+    collection: tasks
+  filterExpressionType: TasksBoolExp
+  aggregateExpression: TasksAggExp
+  orderByExpression: TasksOrderByExp
+  graphql:
+    selectMany:
+      queryRootField: tasks
+      subscription:
+        rootField: tasks
+    selectUniques:
+      - queryRootField: tasksById
+        uniqueIdentifier:
+          - id
+        subscription:
+          rootField: tasksById
+    filterInputTypeName: TasksFilterInput
+    aggregate:
+      queryRootField: tasksAggregate
+      subscription:
+        rootField: tasksAggregate
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: Tasks
+  permissions:
+    - role: admin
+      select:
+        filter: null
+        allowSubscriptions: true
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: user
+  sourceType: Tasks
+  target:
+    model:
+      name: Users
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: userId
+      target:
+        modelField:
+          - fieldName: id
+

@@ -1,0 +1,299 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnTasksCompleted
+  description: Update the 'completed' column in the 'tasks' collection
+  fields:
+    - name: set
+      type: Boolean_1!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnTasksCompleted
+    inputTypeName: UpdateColumnTasksCompletedInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: tracker_pg
+      dataConnectorObjectType: update_column_tasks_completed
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnTasksCompleted
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnTasksDescription
+  description: Update the 'description' column in the 'tasks' collection
+  fields:
+    - name: set
+      type: String_1!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnTasksDescription
+    inputTypeName: UpdateColumnTasksDescriptionInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: tracker_pg
+      dataConnectorObjectType: update_column_tasks_description
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnTasksDescription
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnTasksId
+  description: Update the 'id' column in the 'tasks' collection
+  fields:
+    - name: set
+      type: Uuid!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnTasksId
+    inputTypeName: UpdateColumnTasksIdInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: tracker_pg
+      dataConnectorObjectType: update_column_tasks_id
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnTasksId
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnTasksTitle
+  description: Update the 'title' column in the 'tasks' collection
+  fields:
+    - name: set
+      type: String_1!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnTasksTitle
+    inputTypeName: UpdateColumnTasksTitleInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: tracker_pg
+      dataConnectorObjectType: update_column_tasks_title
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnTasksTitle
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnTasksUserId
+  description: Update the 'user_id' column in the 'tasks' collection
+  fields:
+    - name: set
+      type: Uuid!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnTasksUserId
+    inputTypeName: UpdateColumnTasksUserIdInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: tracker_pg
+      dataConnectorObjectType: update_column_tasks_user_id
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnTasksUserId
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateTasksByIdUpdateColumns
+  description: Update the columns of the 'tasks' collection
+  fields:
+    - name: completed
+      type: UpdateColumnTasksCompleted
+      description: Update the 'completed' column in the 'tasks' collection.
+    - name: description
+      type: UpdateColumnTasksDescription
+      description: Update the 'description' column in the 'tasks' collection.
+    - name: id
+      type: UpdateColumnTasksId
+      description: Update the 'id' column in the 'tasks' collection.
+    - name: title
+      type: UpdateColumnTasksTitle
+      description: Update the 'title' column in the 'tasks' collection.
+    - name: userId
+      type: UpdateColumnTasksUserId
+      description: Update the 'user_id' column in the 'tasks' collection.
+  graphql:
+    typeName: UpdateTasksByIdUpdateColumns
+    inputTypeName: UpdateTasksByIdUpdateColumnsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: tracker_pg
+      dataConnectorObjectType: update_tasks_by_id_update_columns
+      fieldMapping:
+        completed:
+          column:
+            name: completed
+        description:
+          column:
+            name: description
+        id:
+          column:
+            name: id
+        title:
+          column:
+            name: title
+        userId:
+          column:
+            name: user_id
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateTasksByIdUpdateColumns
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - completed
+          - description
+          - id
+          - title
+          - userId
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateTasksByIdResponse
+  description: Responses from the 'update_tasks_by_id' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[Tasks!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: UpdateTasksByIdResponse
+    inputTypeName: UpdateTasksByIdResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: tracker_pg
+      dataConnectorObjectType: update_tasks_by_id_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateTasksByIdResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: UpdateTasksById
+  outputType: UpdateTasksByIdResponse!
+  arguments:
+    - name: keyId
+      type: Uuid!
+    - name: postCheck
+      type: TasksBoolExp
+      description: Update permission post-condition predicate over the 'tasks' collection
+    - name: preCheck
+      type: TasksBoolExp
+      description: Update permission pre-condition predicate over the 'tasks' collection
+    - name: updateColumns
+      type: UpdateTasksByIdUpdateColumns!
+  source:
+    dataConnectorName: tracker_pg
+    dataConnectorCommand:
+      procedure: update_tasks_by_id
+    argumentMapping:
+      keyId: key_id
+      postCheck: post_check
+      preCheck: pre_check
+      updateColumns: update_columns
+  graphql:
+    rootFieldName: updateTasksById
+    rootFieldKind: Mutation
+  description: Update any row on the 'tasks' collection using the 'id' key
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: UpdateTasksById
+  permissions:
+    - role: admin
+      allowExecution: true
+
