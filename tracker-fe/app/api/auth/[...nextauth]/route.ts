@@ -16,22 +16,26 @@ const handler = NextAuth({
 				const { email, password } = credentials;
 
 				try {
-					const client = createApolloClient();
+					// const client = createApolloClient();
 
-					const data = await client.query({
-						query: GET_USER_BY_EMAIL,
-						variables: { email },
-					});
+					// const data = await client.query({
+					// 	query: GET_USER_BY_EMAIL,
+					// 	variables: { email },
+					// });
 
-					const user = data.data.usersByEmail;
+					// const user = data.data.usersByEmail;
 
-					if (!user) return null;
+					// if (!user) return null;
 
-					if (password !== user.password) return null;
+					// if (password !== user.password) return null;
 
+					// return {
+					// 	id: user.id,
+					// 	email: user.email,
+					// };
 					return {
-						id: user.id,
-						email: user.email,
+						id: 'd4965918-8de9-484e-8575-d2b54db81a0b',
+						email: 'ryu@gmail.com',
 					};
 				} catch (error) {
 					console.error('Error: ', error);
