@@ -1,5 +1,5 @@
-// import createApolloClient from '@/apollo/client';
-// import { GET_USER_BY_EMAIL } from '@/apollo/users';
+import createApolloClient from '@/apollo/client';
+import { GET_USER_BY_EMAIL } from '@/apollo/users';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
@@ -13,29 +13,25 @@ const handler = NextAuth({
 			},
 			async authorize(credentials) {
 				if (!credentials) return null;
-				// const { email, password } = credentials;
+				const { email, password } = credentials;
 
 				try {
-					// const client = createApolloClient();
+					const client = createApolloClient();
 
-					// const data = await client.query({
-					// 	query: GET_USER_BY_EMAIL,
-					// 	variables: { email },
-					// });
+					const data = await client.query({
+						query: GET_USER_BY_EMAIL,
+						variables: { email },
+					});
 
-					// const user = data.data.usersByEmail;
+					const user = data.data.usersByEmail;
 
-					// if (!user) return null;
+					if (!user) return null;
 
-					// if (password !== user.password) return null;
+					if (password !== user.password) return null;
 
-					// return {
-					// 	id: user.id,
-					// 	email: user.email,
-					// };
 					return {
-						id: 'd4965918-8de9-484e-8575-d2b54db81a0b',
-						email: 'ryu@gmail.com',
+						id: user.id,
+						email: user.email,
 					};
 				} catch (error) {
 					console.error('Error: ', error);
