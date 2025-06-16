@@ -7,7 +7,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
 
 const signInSchema = z.object({
   email: z.string().nonempty('Email is required').email(),
@@ -15,8 +14,6 @@ const signInSchema = z.object({
 })
 
 const SignInForm = () => {
-  const router = useRouter();
-
   const form = useForm({
     resolver: zodResolver(signInSchema),
     defaultValues: {
