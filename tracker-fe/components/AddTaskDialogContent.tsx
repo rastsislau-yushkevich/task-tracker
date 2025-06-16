@@ -6,7 +6,7 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage, Form } from "
 import { Input } from "./ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { ApolloError, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { ADD_TASK, GET_ALL_TASKS } from "@/apollo/tasks";
 import { useSession } from "next-auth/react";
 import { FC } from "react";
