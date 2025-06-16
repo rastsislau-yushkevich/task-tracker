@@ -26,10 +26,7 @@ const SignInForm = () => {
   })
 
   const handleSignIn = async (values: z.infer<typeof signInSchema>) => {
-    const res = await signIn('credentials', { ...values, redirect: false });
-    if (res && !res.error) {
-      router.push('/')
-    }
+    await signIn('credentials', { ...values, callbackUrl: '/' });
   }
 
   return (
